@@ -562,85 +562,44 @@
     </div>
 
     <script>
-        // Store signups in localStorage and allow CSV download
-        const STORAGE_KEY = 'breakfast_network_signups';
+        const FORMSPREE_URL = 'https://formspree.io/f/mnnevvnb';
 
-        function getSignups() {
-            const data = localStorage.getItem(STORAGE_KEY);
-            return data ? JSON.parse(data) : [];
-        }
-
-        function saveSignup(email, firstName) {
-            const signups = getSignups();
-
-            // Check if email already exists
-            const exists = signups.some(s => s.email.toLowerCase() === email.toLowerCase());
-            if (exists) {
-                return false;
-            }
-
-            signups.push({
-                email: email,
-                first_name: firstName || '',
-                last_name: '',
-                phone: '',
-                property_interest: '',
-                price_range: '',
-                preferred_area: '',
-                move_timeline: '',
-                buyer_seller: '',
-                signup_date: new Date().toISOString()
-            });
-
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(signups));
-            return true;
-        }
-
-        // Form submission
-        document.getElementById('waitlist-form').addEventListener('submit', function(e) {
+        document.getElementById('waitlist-form').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const email = this.querySelector('input[name="email"]').value;
             const firstName = this.querySelector('input[name="first_name"]').value;
+            const submitBtn = this.querySelector('.submit-btn');
 
-            saveSignup(email, firstName);
+            // Disable button while submitting
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Sending...</span>';
 
-            // Show success message
-            document.querySelector('.form-content').classList.add('hidden');
-            document.querySelector('.success-message').classList.add('show');
-        });
+            try {
+                const response = await fetch(FORMSPREE_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        first_name: firstName,
+                        signup_date: new Date().toISOString()
+                    })
+                });
 
-        // Admin function to download CSV (access via console)
-        window.downloadSignupsCSV = function() {
-            const signups = getSignups();
-            if (signups.length === 0) {
-                alert('No signups yet');
-                return;
+                if (response.ok) {
+                    document.querySelector('.form-content').classList.add('hidden');
+                    document.querySelector('.success-message').classList.add('show');
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                alert('Something went wrong. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Get Early Access</span><span>🚀</span>';
             }
-
-            const headers = ['email', 'first_name', 'last_name', 'phone', 'property_interest', 'price_range', 'preferred_area', 'move_timeline', 'buyer_seller'];
-            const csvContent = [
-                headers.join(','),
-                ...signups.map(s => headers.map(h => `"${(s[h] || '').replace(/"/g, '""')}"`).join(','))
-            ].join('\n');
-
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `breakfast_network_signups_${new Date().toISOString().split('T')[0]}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-        };
-
-        // Admin function to view signup count
-        window.getSignupCount = function() {
-            return getSignups().length;
-        };
-
-        console.log('BreakfastNetwork Admin Commands:');
-        console.log('- downloadSignupsCSV() : Download all signups as CSV');
-        console.log('- getSignupCount() : Get total signup count');
+        });
     </script>
 </body>
 </html>
