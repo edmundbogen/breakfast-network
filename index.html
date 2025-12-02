@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BreakfastNetwork - Stop Losing Recipes from Instagram & TikTok</title>
+    <meta name="description" content="Forward any Instagram or TikTok reel and get a clean, organized recipe card. Never lose another recipe in your saved folder.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #FFF8F0 0%, #FFF0E5 100%);
+            min-height: 100vh;
+            color: #2D2A26;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #E85D04;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: #2D2A26;
+        }
+
+        .hero h1 span {
+            color: #E85D04;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #5C5652;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .how-it-works {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .how-it-works h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #E85D04;
+            margin-bottom: 25px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background: #E85D04;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .step-content p {
+            font-size: 0.9rem;
+            color: #5C5652;
+        }
+
+        .signup-form {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+
+        .signup-form h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .signup-form .subtitle {
+            font-size: 0.95rem;
+            color: #5C5652;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #E8E4E0;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #E85D04;
+        }
+
+        .form-group input::placeholder {
+            color: #A8A4A0;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: #E85D04;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .submit-btn:hover {
+            background: #D14E00;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-message h3 {
+            font-size: 1.3rem;
+            color: #2D8A4E;
+            margin-bottom: 10px;
+        }
+
+        .success-message p {
+            color: #5C5652;
+        }
+
+        .form-content.hidden {
+            display: none;
+        }
+
+        .pain-point {
+            background: #FFF;
+            border-left: 4px solid #E85D04;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 40px;
+        }
+
+        .pain-point p {
+            font-style: italic;
+            color: #5C5652;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .pain-point .attribution {
+            margin-top: 10px;
+            font-style: normal;
+            font-size: 0.9rem;
+            color: #A8A4A0;
+        }
+
+        .features {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+        }
+
+        .feature span {
+            font-size: 0.95rem;
+            color: #2D2A26;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #A8A4A0;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 30px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">BreakfastNetwork</div>
+
+        <div class="hero">
+            <h1>Stop <span>losing recipes</span> from Instagram & TikTok</h1>
+            <p>Forward any reel. Get a clean recipe card. Finally find that recipe you saved 6 months ago.</p>
+        </div>
+
+        <div class="pain-point">
+            <p>"I have 400 saved reels and can never find anything. Half of them don't even have the recipe written out."</p>
+            <div class="attribution">— Every home cook on Instagram</div>
+        </div>
+
+        <div class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>See a recipe you love</h3>
+                        <p>Scrolling Instagram or TikTok, find a recipe reel</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Forward it to us</h3>
+                        <p>Share the reel to your unique BreakfastNetwork email</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Get a clean recipe card</h3>
+                        <p>We transcribe the video, extract the recipe, and save it to your library</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <span class="feature-icon">🎥</span>
+                <span><strong>Video transcription</strong> — Even recipes only spoken aloud</span>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">📱</span>
+                <span><strong>Works with Instagram & TikTok</strong> — Your favorite platforms</span>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">🔍</span>
+                <span><strong>Searchable library</strong> — Find any recipe instantly</span>
+            </div>
+            <div class="feature">
+                <span class="feature-icon">📧</span>
+                <span><strong>Just forward & done</strong> — No app switching, no copy-paste</span>
+            </div>
+        </div>
+
+        <div class="signup-form">
+            <div class="form-content">
+                <h2>Join the Waitlist</h2>
+                <p class="subtitle">Be first to try it. We're launching soon.</p>
+                <form id="waitlist-form">
+                    <div class="form-group">
+                        <input type="text" name="first_name" placeholder="First name (optional)">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Your email" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Get Early Access</button>
+                </form>
+            </div>
+            <div class="success-message">
+                <h3>You're on the list!</h3>
+                <p>We'll email you as soon as BreakfastNetwork is ready.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>BreakfastNetwork — Save every recipe</p>
+        </div>
+    </div>
+
+    <script>
+        // Store signups in localStorage and allow CSV download
+        const STORAGE_KEY = 'breakfast_network_signups';
+
+        function getSignups() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveSignup(email, firstName) {
+            const signups = getSignups();
+
+            // Check if email already exists
+            const exists = signups.some(s => s.email.toLowerCase() === email.toLowerCase());
+            if (exists) {
+                return false;
+            }
+
+            signups.push({
+                email: email,
+                first_name: firstName || '',
+                last_name: '',
+                phone: '',
+                property_interest: '',
+                price_range: '',
+                preferred_area: '',
+                move_timeline: '',
+                buyer_seller: '',
+                signup_date: new Date().toISOString()
+            });
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(signups));
+            return true;
+        }
+
+        // Form submission
+        document.getElementById('waitlist-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = this.querySelector('input[name="email"]').value;
+            const firstName = this.querySelector('input[name="first_name"]').value;
+
+            saveSignup(email, firstName);
+
+            // Show success message
+            document.querySelector('.form-content').classList.add('hidden');
+            document.querySelector('.success-message').classList.add('show');
+        });
+
+        // Admin function to download CSV (access via console)
+        window.downloadSignupsCSV = function() {
+            const signups = getSignups();
+            if (signups.length === 0) {
+                alert('No signups yet');
+                return;
+            }
+
+            const headers = ['email', 'first_name', 'last_name', 'phone', 'property_interest', 'price_range', 'preferred_area', 'move_timeline', 'buyer_seller'];
+            const csvContent = [
+                headers.join(','),
+                ...signups.map(s => headers.map(h => `"${(s[h] || '').replace(/"/g, '""')}"`).join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `breakfast_network_signups_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+
+        // Admin function to view signup count
+        window.getSignupCount = function() {
+            return getSignups().length;
+        };
+
+        console.log('BreakfastNetwork Admin Commands:');
+        console.log('- downloadSignupsCSV() : Download all signups as CSV');
+        console.log('- getSignupCount() : Get total signup count');
+    </script>
+</body>
+</html>
